@@ -12,8 +12,8 @@ import com.markoved.countries.MainActivityViewModel
 
 @Composable
 fun MainScreen(
-    modifier: Modifier = Modifier,
-    mainActivityViewModel: MainActivityViewModel = viewModel()
+    mainActivityViewModel: MainActivityViewModel,
+    modifier: Modifier = Modifier
 ) {
     Column {
         Spacer(Modifier.height(16.dp))

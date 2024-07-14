@@ -1,34 +1,19 @@
 package com.markoved.countries.data.repository
 
+import com.markoved.countries.data.api.CountriesApiService
 import com.markoved.countries.data.entity.Country
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
-class CountryRepository {
-    fun getCountries(): List<Country> {
-        return mockData
-    }
-
-    companion object {
-        val mockData = listOf(
-            Country("Sweden"),
-            Country("Russia"),
-            Country("Serbia"),
-            Country("USA"),
-            Country("Germany"),
-            Country("France"),
-            Country("Japan"),
-            Country("South Korea"),
-            Country("North Korea"),
-            Country("Bulgaria"),
-            Country("Canada"),
-            Country("Finland"),
-            Country("Norway"),
-            Country("Ukraine"),
-            Country("Belarus"),
-            Country("China"),
-            Country("India"),
-            Country("Mexico"),
-            Country("Belgium"),
-            Country("Denmark"),
-        )
+interface CountryRepository {
+    suspend fun getCountries(): List<Country>
+}
+class CountryRepositoryImpl(
+    private val countriesApiService: CountriesApiService,
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+): CountryRepository {
+    override suspend fun getCountries(): List<Country> = withContext(ioDispatcher) {
+        return@withContext countriesApiService.getCountries()
     }
 }

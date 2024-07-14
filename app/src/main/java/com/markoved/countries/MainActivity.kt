@@ -9,8 +9,11 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.markoved.countries.ui.MainScreen
 import com.markoved.countries.ui.theme.CountriesTheme
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
+
+    private val viewModel: MainActivityViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +23,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MainScreen()
+                    MainScreen(viewModel)
                 }
             }
         }
