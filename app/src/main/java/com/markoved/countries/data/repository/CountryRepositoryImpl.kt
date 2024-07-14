@@ -1,25 +1,22 @@
 package com.markoved.countries.data.repository
 
 import android.util.Log
-import com.markoved.countries.data.api.CountriesApiService
+import com.markoved.countries.data.api.CountryApiService
 import com.markoved.countries.data.entity.Country
+import com.markoved.countries.domain.CountryRepository
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.lang.Exception
 
-interface CountryRepository {
-    suspend fun getAllCountries(): List<Country>
-    suspend fun getCountries(name: String): List<Country>
-}
 class CountryRepositoryImpl(
-    private val countriesApiService: CountriesApiService,
+    private val countryApiService: CountryApiService,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ): CountryRepository {
     override suspend fun getAllCountries(): List<Country> = withContext(ioDispatcher) {
         try {
-            return@withContext countriesApiService.getAllCountries()
+            return@withContext countryApiService.getAllCountries()
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {
@@ -31,7 +28,7 @@ class CountryRepositoryImpl(
 
     override suspend fun getCountries(name: String): List<Country> = withContext(ioDispatcher) {
         try {
-            return@withContext countriesApiService.getCountries(name)
+            return@withContext countryApiService.getCountriesByName(name)
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {

@@ -7,13 +7,13 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.markoved.countries.data.entity.Country
-import com.markoved.countries.data.repository.CountryRepository
+import com.markoved.countries.domain.GetCountriesUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class MainActivityViewModel(
-    private val countryRepository: CountryRepository
+    private val getCountriesUseCase: GetCountriesUseCase
 ) : ViewModel() {
 
     private val _countries: MutableList<Country> = mutableStateListOf()
@@ -28,7 +28,7 @@ class MainActivityViewModel(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            _countries.addAll(countryRepository.getAllCountries())
+            _countries.addAll(getCountriesUseCase())
         }
     }
 
@@ -36,11 +36,7 @@ class MainActivityViewModel(
         _searchText = text
         searchJob?.cancel()
         searchJob = viewModelScope.launch(Dispatchers.IO) {
-            val result = if (text.isEmpty()) {
-                countryRepository.getAllCountries()
-            } else {
-                countryRepository.getCountries(text)
-            }
+            val result = getCountriesUseCase(text)
             _countries.clear()
             _countries.addAll(result)
         }
