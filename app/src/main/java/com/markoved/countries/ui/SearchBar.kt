@@ -20,11 +20,13 @@ import com.markoved.countries.ui.theme.CountriesTheme
 
 @Composable
 fun SearchBar(
+    text: String,
+    onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     TextField(
-        value = "",
-        onValueChange = {},
+        value = text,
+        onValueChange = onValueChange,
         leadingIcon = {
             Icon(
                 imageVector = Icons.Default.Search,
@@ -48,6 +50,10 @@ fun SearchBar(
 @Composable
 fun SearchBarPreview() {
     CountriesTheme {
-        SearchBar(Modifier.padding(8.dp))
+        SearchBar(
+            "Belarus",
+            {},
+            Modifier.padding(8.dp)
+        )
     }
 }

@@ -17,7 +17,11 @@ fun MainScreen(
 ) {
     Column {
         Spacer(Modifier.height(16.dp))
-        SearchBar(Modifier.padding(horizontal = 16.dp))
+        SearchBar(
+            mainActivityViewModel.searchText,
+            { mainActivityViewModel.onSearchTextChanged(it) },
+            Modifier.padding(horizontal = 16.dp)
+        )
         Spacer(Modifier.height(16.dp))
         CountryList(data = mainActivityViewModel.countries)
         Spacer(Modifier.height(16.dp))
