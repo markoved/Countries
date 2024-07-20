@@ -6,13 +6,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.markoved.countries.MainActivityViewModel
+import com.markoved.countries.CountryListViewModel
+import org.koin.androidx.compose.koinViewModel
 
 enum class CountriesScreen {
     List,
@@ -21,7 +24,6 @@ enum class CountriesScreen {
 
 @Composable
 fun CountriesApp(
-    viewModel: MainActivityViewModel,
     navController: NavHostController = rememberNavController()
 ) {
     NavHost(
@@ -31,7 +33,6 @@ fun CountriesApp(
     ) {
         composable(route = CountriesScreen.List.name) {
             CountryListScreen(
-                mainActivityViewModel = viewModel,
                 onCountryItemClick = { country ->
                     navController.navigate("${CountriesScreen.Details.name}/$country")
                 }
@@ -45,20 +46,22 @@ fun CountriesApp(
 
 @Composable
 fun CountryListScreen(
-    mainActivityViewModel: MainActivityViewModel,
+    viewModel: CountryListViewModel = koinViewModel(),
     onCountryItemClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val uiState by viewModel.uiState.collectAsState()
+
     Column {
         Spacer(Modifier.height(16.dp))
         SearchBar(
-            mainActivityViewModel.searchText,
-            { mainActivityViewModel.onSearchTextChanged(it) },
+            uiState.searchText,
+            { viewModel.onSearchTextChanged(it) },
             Modifier.padding(horizontal = 16.dp)
         )
         Spacer(Modifier.height(16.dp))
         CountryList(
-            data = mainActivityViewModel.countries,
+            data = uiState.countries,
             onItemClick = onCountryItemClick
         )
         Spacer(Modifier.height(16.dp))

@@ -1,6 +1,6 @@
 package com.markoved.countries.di
 
-import com.markoved.countries.MainActivityViewModel
+import com.markoved.countries.CountryListViewModel
 import com.markoved.countries.data.api.CountryApiService
 import com.markoved.countries.data.repository.CountryRepositoryImpl
 import com.markoved.countries.domain.CountryRepository
@@ -27,5 +27,5 @@ val appModule = module {
 
     single<GetCountriesUseCase> { GetCountriesUseCase(get()) }
 
-    viewModel { MainActivityViewModel(get()) }
+    viewModel { CountryListViewModel(get()) }
 }

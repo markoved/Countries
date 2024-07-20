@@ -32,6 +32,7 @@ androidx-navigation-compose = { group = "androidx.navigation", name = "navigatio
 squareup-retrofit2 = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 squareup-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 insert-koin = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
+insert-koin-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
