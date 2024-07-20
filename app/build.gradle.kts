@@ -65,6 +65,7 @@ dependencies {
     implementation(libs.squareup.gson)
     implementation(libs.insert.koin)
     implementation(libs.insert.koin.compose)
+    implementation(libs.coil.compose)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
