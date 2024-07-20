@@ -9,13 +9,17 @@ import com.markoved.countries.data.entity.Country
 @Composable
 fun CountryList(
     data: List<Country>,
+    onItemClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
         modifier = modifier
     ) {
         items(data) { item ->
-            CountryElement(item.name.common)
+            CountryElement(
+                name = item.name.common,
+                onClick = onItemClick
+            )
         }
     }
 }

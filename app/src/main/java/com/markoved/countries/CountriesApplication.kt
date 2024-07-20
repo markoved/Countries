@@ -4,7 +4,7 @@ import android.app.Application
 import com.markoved.countries.di.appModule
 import org.koin.core.context.startKoin
 
-class CountriesApp : Application() {
+class CountriesApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
