@@ -66,6 +66,7 @@ dependencies {
     implementation(libs.insert.koin)
     implementation(libs.insert.koin.compose)
     implementation(libs.coil.compose)
+    implementation(libs.androidx.material3.window.size)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
