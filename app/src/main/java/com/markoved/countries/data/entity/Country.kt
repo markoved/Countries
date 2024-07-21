@@ -11,7 +11,7 @@ data class Country(
     val flag: Flag,
 
     @SerializedName("capital")
-    val capitals: List<String>,
+    val capitals: List<String>?,
 
     @SerializedName("population")
     val population: Int

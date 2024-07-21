@@ -21,12 +21,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val windowSizeClass = calculateWindowSizeClass(this)
             CountriesTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    CountriesApp(windowSizeClass)
-                }
+                CountriesApp(windowSizeClass)
             }
         }
     }
