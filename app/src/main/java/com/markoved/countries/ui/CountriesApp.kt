@@ -78,7 +78,9 @@ fun CountryListScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
-    Column {
+    Column(
+        modifier = modifier.padding(horizontal = 8.dp)
+    ) {
         Spacer(Modifier.height(16.dp))
         SearchBar(
             uiState.searchText,
@@ -122,7 +124,7 @@ fun CountryNameText(
 ) {
     Text(
         text = name,
-        style = MaterialTheme.typography.headlineLarge,
+        style = MaterialTheme.typography.displayMedium,
         color = MaterialTheme.colorScheme.primary
     )
 }
@@ -151,13 +153,13 @@ fun OfficialNameText(
     Row {
         Text(
             text = "Official name:",
-            style = MaterialTheme.typography.bodyLarge,
+            style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.secondary
         )
         Spacer(modifier = Modifier.width(4.dp))
         Text(
             text = officialName,
-            style = MaterialTheme.typography.bodyLarge,
+            style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.primary
         )
     }
@@ -171,13 +173,13 @@ fun CapitalText(
     Row {
         Text(
             text = "Capital:",
-            style = MaterialTheme.typography.bodyLarge,
+            style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.secondary
         )
         Spacer(modifier = Modifier.width(4.dp))
         Text(
             text = capital,
-            style = MaterialTheme.typography.bodyLarge,
+            style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.primary
         )
     }
@@ -192,13 +194,13 @@ fun PopulationText(
     Row {
         Text(
             text = "Population:",
-            style = MaterialTheme.typography.bodyLarge,
+            style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.secondary
         )
         Spacer(modifier = Modifier.width(4.dp))
         Text(
             text = "$formattedNumber people",
-            style = MaterialTheme.typography.bodyLarge,
+            style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.primary
         )
     }

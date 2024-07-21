@@ -22,8 +22,7 @@ fun CountryElement(
         Text(
             text = name,
             style = MaterialTheme.typography.titleLarge,
-
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 8.dp)
         )
     }
 }
