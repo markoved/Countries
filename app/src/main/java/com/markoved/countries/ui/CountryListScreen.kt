@@ -25,7 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.markoved.countries.CountryListViewModel
 import com.markoved.countries.R
-import com.markoved.countries.data.entity.Country
+import com.markoved.countries.domain.Country
 import com.markoved.countries.ui.theme.CountriesTheme
 import org.koin.androidx.compose.koinViewModel
 
@@ -66,7 +66,7 @@ fun CountryList(
     ) {
         items(data) { item ->
             CountryItem(
-                name = item.name.common,
+                name = item.commonName,
                 onClick = onItemClick
             )
         }

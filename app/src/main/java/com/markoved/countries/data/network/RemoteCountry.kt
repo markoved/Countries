@@ -1,8 +1,8 @@
-package com.markoved.countries.data.entity
+package com.markoved.countries.data.network
 
 import com.google.gson.annotations.SerializedName
 
-data class Country(
+data class RemoteCountry(
 
     @SerializedName("name")
     val name: Name,

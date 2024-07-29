@@ -1,7 +1,5 @@
 package com.markoved.countries.domain
 
-import com.markoved.countries.data.entity.Country
-
 class GetCountriesUseCase(
     private val countryRepository: CountryRepository
 ) {

@@ -2,7 +2,7 @@ package com.markoved.countries
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.markoved.countries.data.entity.Country
+import com.markoved.countries.domain.Country
 import com.markoved.countries.domain.GetCountriesUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

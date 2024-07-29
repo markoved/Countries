@@ -20,13 +20,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.markoved.countries.CountryListViewModel
 import com.markoved.countries.R
-import com.markoved.countries.data.entity.Country
+import com.markoved.countries.domain.Country
 import org.koin.androidx.compose.koinViewModel
 import java.text.NumberFormat
 
@@ -38,7 +39,7 @@ fun CountryDetailsScreen(
     viewModel: CountryListViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    val country = uiState.countries.find { it.name.common == countryName } ?: return
+    val country = uiState.countries.find { it.commonName == countryName } ?: return
 
     when (windowSize.widthSizeClass) {
         WindowWidthSizeClass.Compact -> {
@@ -61,15 +62,15 @@ fun CountryDetailsScreenLandscape(
         modifier = modifier.padding(16.dp)
     ) {
         Column {
-            CountryNameText(name = country.name.common)
-            OfficialNameText(officialName = country.name.official)
+            CountryNameText(name = country.commonName)
+            OfficialNameText(officialName = country.officialName)
             if (!country.capitals.isNullOrEmpty()) {
                 CapitalText(capital = country.capitals.first())
             }
             PopulationText(population = country.population)
         }
         FlagImage(
-            flagUrl = country.flag.png,
+            flagUrl = country.flagUrl,
             modifier = Modifier
                 .fillMaxHeight()
                 .widthIn(max = 400.dp)
@@ -85,11 +86,11 @@ fun CountryDetailsScreenPortrait(
     Column(
         modifier = modifier.padding(16.dp)
     ) {
-        FlagImage(flagUrl = country.flag.png, modifier = Modifier.fillMaxWidth())
+        FlagImage(flagUrl = country.flagUrl, modifier = Modifier.fillMaxWidth())
         Spacer(modifier = Modifier.height(8.dp))
-        CountryNameText(name = country.name.common)
-        OfficialNameText(officialName = country.name.official)
-        if (!country.capitals.isNullOrEmpty()) {
+        CountryNameText(name = country.commonName)
+        OfficialNameText(officialName = country.officialName)
+        if (country.capitals.isNotEmpty()) {
             CapitalText(capital = country.capitals.first())
         }
         PopulationText(population = country.population)
@@ -120,6 +121,7 @@ fun FlagImage(
             .crossfade(true)
             .build(),
         contentDescription = stringResource(R.string.flag_image_content_description),
+        error = painterResource(id = R.drawable.flag_placeholder),
         modifier = modifier
     )
 }
