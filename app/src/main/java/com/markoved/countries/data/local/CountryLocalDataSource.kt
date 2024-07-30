@@ -2,19 +2,19 @@ package com.markoved.countries.data.local
 
 class CountryLocalDataSource(private val dao: CountryDao) {
 
-    fun getAllCountries(): List<LocalCountry> {
+    suspend fun getAllCountries(): List<LocalCountry> {
         return dao.getAll()
     }
 
-    fun getCountries(name: String): List<LocalCountry> {
+    suspend fun getCountriesByName(name: String): List<LocalCountry> {
         return dao.findByName(name)
     }
 
-    fun insertAllCountries(countries: List<LocalCountry>) {
+    suspend fun insertAllCountries(countries: List<LocalCountry>) {
         dao.insertAll(countries)
     }
 
-    fun clear() {
+    suspend fun clear() {
         dao.clear()
     }
 }

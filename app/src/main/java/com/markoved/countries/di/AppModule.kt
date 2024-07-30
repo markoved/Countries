@@ -12,7 +12,8 @@ import com.markoved.countries.data.CountryRepositoryImpl
 import com.markoved.countries.data.mapper.RemoteCountryToLocalCountryMapper
 import com.markoved.countries.data.mapper.LocalCountryToDomainMapper
 import com.markoved.countries.domain.CountryRepository
-import com.markoved.countries.domain.GetCountriesUseCase
+import com.markoved.countries.domain.GetAllCountriesUseCase
+import com.markoved.countries.domain.SearchCountriesByNameUseCase
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -57,7 +58,9 @@ val appModule = module {
 
     single<CountryRepository> { CountryRepositoryImpl(get(), get(), get(), get(), get()) }
 
-    single<GetCountriesUseCase> { GetCountriesUseCase(get()) }
+    single<GetAllCountriesUseCase> { GetAllCountriesUseCase(get()) }
 
-    viewModel { CountryListViewModel(get()) }
+    single<SearchCountriesByNameUseCase> { SearchCountriesByNameUseCase(get()) }
+
+    viewModel { CountryListViewModel(get(), get()) }
 }

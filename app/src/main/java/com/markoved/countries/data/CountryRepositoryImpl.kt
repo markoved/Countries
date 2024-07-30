@@ -9,10 +9,7 @@ import com.markoved.countries.data.mapper.RemoteCountryToDomainMapper
 import com.markoved.countries.domain.Country
 import com.markoved.countries.domain.CountryRepository
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class CountryRepositoryImpl(
@@ -24,32 +21,26 @@ class CountryRepositoryImpl(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ): CountryRepository {
 
-    private var coroutineScope = CoroutineScope(ioDispatcher)
-    private var cacheJob: Job? = null
-
     override suspend fun getAllCountries(): List<Country> = withContext(ioDispatcher) {
         val remoteData = remoteDataSource.getAllCountries()
         if (remoteData.isNotEmpty()) {
-            saveToDatabase(remoteData.map(remoteCountryToLocalCountryMapper))
+            updateLocalData(remoteData.map(remoteCountryToLocalCountryMapper))
             return@withContext remoteData.map(remoteCountryToDomainMapper)
         }
         localDataSource.getAllCountries().map(localCountryToDomainMapper)
     }
 
-    override suspend fun getCountries(name: String): List<Country> = withContext(ioDispatcher) {
+    override suspend fun getCountriesByName(name: String): List<Country> = withContext(ioDispatcher) {
         val remoteData = remoteDataSource.getCountries(name).map(remoteCountryToDomainMapper)
         if (remoteData.isNotEmpty()) {
             return@withContext remoteData
         }
-        localDataSource.getCountries(name).map(localCountryToDomainMapper)
+        localDataSource.getCountriesByName(name).map(localCountryToDomainMapper)
     }
 
-    private fun saveToDatabase(countries: List<LocalCountry>) {
-        cacheJob?.cancel()
-        cacheJob = coroutineScope.launch {
-            localDataSource.clear()
-            localDataSource.insertAllCountries(countries)
-        }
+    private suspend fun updateLocalData(countries: List<LocalCountry>) {
+        localDataSource.clear()
+        localDataSource.insertAllCountries(countries)
     }
 
     companion object {

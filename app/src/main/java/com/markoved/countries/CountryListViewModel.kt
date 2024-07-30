@@ -3,7 +3,8 @@ package com.markoved.countries
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.markoved.countries.domain.Country
-import com.markoved.countries.domain.GetCountriesUseCase
+import com.markoved.countries.domain.GetAllCountriesUseCase
+import com.markoved.countries.domain.SearchCountriesByNameUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -19,7 +20,8 @@ data class CountryListUIState(
 )
 
 class CountryListViewModel(
-    private val getCountriesUseCase: GetCountriesUseCase
+    private val getAllCountriesUseCase: GetAllCountriesUseCase,
+    private val searchCountriesByNameUseCase: SearchCountriesByNameUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(CountryListUIState(
@@ -34,7 +36,7 @@ class CountryListViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             _uiState.update {
                 it.copy(
-                    countries = getCountriesUseCase(),
+                    countries = getAllCountriesUseCase(),
                     searchText = it.searchText
                 )
             }
@@ -51,7 +53,7 @@ class CountryListViewModel(
         searchJob?.cancel()
         searchJob = viewModelScope.launch(Dispatchers.IO) {
             delay(SEARCH_DEBOUNCE)
-            val result = getCountriesUseCase(text)
+            val result = searchCountriesByNameUseCase(text)
             _uiState.update {
                 it.copy(
                     countries = result,
