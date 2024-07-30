@@ -3,4 +3,5 @@
     <string name="placeholder_search">Search</string>
     <string name="sweden">Sweden</string>
     <string name="flag_image_content_description">A country\'s flag.</string>
+    <string name="no_results">No results :(</string>
 </resources>
