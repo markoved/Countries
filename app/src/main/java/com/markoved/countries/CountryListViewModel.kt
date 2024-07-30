@@ -6,6 +6,7 @@ import com.markoved.countries.domain.Country
 import com.markoved.countries.domain.GetCountriesUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -49,6 +50,7 @@ class CountryListViewModel(
         }
         searchJob?.cancel()
         searchJob = viewModelScope.launch(Dispatchers.IO) {
+            delay(SEARCH_DEBOUNCE)
             val result = getCountriesUseCase(text)
             _uiState.update {
                 it.copy(
@@ -57,5 +59,9 @@ class CountryListViewModel(
                 )
             }
         }
+    }
+
+    companion object {
+        private const val SEARCH_DEBOUNCE = 500L
     }
 }
