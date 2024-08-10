@@ -1,4 +1,4 @@
-package com.markoved.countries.domain
+package com.markoved.countries.domain.entity
 
 data class Country (
     val commonName: String,

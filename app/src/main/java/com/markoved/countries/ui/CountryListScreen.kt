@@ -19,16 +19,17 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.markoved.countries.CountryListViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.markoved.countries.ui.viewmodel.CountryListViewModel
 import com.markoved.countries.R
-import com.markoved.countries.domain.Country
+import com.markoved.countries.domain.entity.Country
 import com.markoved.countries.ui.theme.CountriesTheme
 import org.koin.androidx.compose.koinViewModel
 
@@ -38,7 +39,7 @@ fun CountryListScreen(
     modifier: Modifier = Modifier,
     viewModel: CountryListViewModel = koinViewModel()
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Column(
         modifier = modifier.padding(horizontal = 8.dp)
@@ -97,6 +98,7 @@ fun SearchBar(
 ) {
     TextField(
         value = text,
+        singleLine = true,
         onValueChange = onValueChange,
         leadingIcon = {
             Icon(
@@ -123,11 +125,17 @@ fun CountryItem(
     onClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    TextButton(onClick = { onClick(name) }) {
+    TextButton(
+        onClick = { onClick(name) },
+        modifier = Modifier.fillMaxWidth()
+    ) {
         Text(
             text = name,
+            textAlign = TextAlign.Start,
             style = MaterialTheme.typography.titleLarge,
-            modifier = Modifier.padding(horizontal = 8.dp, vertical = 8.dp)
+            modifier = Modifier
+                .padding(horizontal = 8.dp, vertical = 8.dp)
+                .fillMaxWidth()
         )
     }
 }

@@ -1,7 +1,7 @@
 package com.markoved.countries.di
 
 import androidx.room.Room
-import com.markoved.countries.CountryListViewModel
+import com.markoved.countries.ui.viewmodel.CountryListViewModel
 import com.markoved.countries.data.network.CountryApiService
 import com.markoved.countries.data.local.CountryDao
 import com.markoved.countries.data.local.CountryDatabase

@@ -15,7 +15,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,11 +22,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.markoved.countries.CountryListViewModel
+import com.markoved.countries.ui.viewmodel.CountryListViewModel
 import com.markoved.countries.R
-import com.markoved.countries.domain.Country
+import com.markoved.countries.domain.entity.Country
 import org.koin.androidx.compose.koinViewModel
 import java.text.NumberFormat
 
@@ -38,7 +38,7 @@ fun CountryDetailsScreen(
     modifier: Modifier = Modifier,
     viewModel: CountryListViewModel = koinViewModel()
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val country = uiState.countries.find { it.commonName == countryName } ?: return
 
     when (windowSize.widthSizeClass) {
@@ -64,7 +64,7 @@ fun CountryDetailsScreenLandscape(
         Column {
             CountryNameText(name = country.commonName)
             OfficialNameText(officialName = country.officialName)
-            if (!country.capitals.isNullOrEmpty()) {
+            if (country.capitals.isNotEmpty()) {
                 CapitalText(capital = country.capitals.first())
             }
             PopulationText(population = country.population)
@@ -121,7 +121,7 @@ fun FlagImage(
             .crossfade(true)
             .build(),
         contentDescription = stringResource(R.string.flag_image_content_description),
-        error = painterResource(id = R.drawable.flag_placeholder),
+        error = painterResource(id = R.drawable.flag_error_placeholder),
         modifier = modifier
     )
 }
@@ -133,7 +133,7 @@ fun OfficialNameText(
 ) {
     Row {
         Text(
-            text = "Official name:",
+            text = stringResource(R.string.title_official_name),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.secondary
         )
@@ -153,7 +153,7 @@ fun CapitalText(
 ) {
     Row {
         Text(
-            text = "Capital:",
+            text = stringResource(R.string.title_capital),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.secondary
         )
@@ -174,7 +174,7 @@ fun PopulationText(
     val formattedNumber = NumberFormat.getNumberInstance().format(population)
     Row {
         Text(
-            text = "Population:",
+            text = stringResource(R.string.title_population),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.secondary
         )

@@ -1,7 +1,7 @@
 package com.markoved.countries.data.mapper
 
 import com.markoved.countries.data.local.LocalCountry
-import com.markoved.countries.domain.Country
+import com.markoved.countries.domain.entity.Country
 
 class LocalCountryToDomainMapper: (LocalCountry) -> Country {
     override fun invoke(remoteCountry: LocalCountry): Country = Country(

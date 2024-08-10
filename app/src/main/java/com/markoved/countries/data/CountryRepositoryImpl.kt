@@ -6,7 +6,7 @@ import com.markoved.countries.data.mapper.LocalCountryToDomainMapper
 import com.markoved.countries.data.mapper.RemoteCountryToLocalCountryMapper
 import com.markoved.countries.data.network.CountryRemoteDataSource
 import com.markoved.countries.data.mapper.RemoteCountryToDomainMapper
-import com.markoved.countries.domain.Country
+import com.markoved.countries.domain.entity.Country
 import com.markoved.countries.domain.CountryRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -41,9 +41,5 @@ class CountryRepositoryImpl(
     private suspend fun updateLocalData(countries: List<LocalCountry>) {
         localDataSource.clear()
         localDataSource.insertAllCountries(countries)
-    }
-
-    companion object {
-        private const val TAG = "CountryRepositoryImpl"
     }
 }

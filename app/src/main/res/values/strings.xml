@@ -4,4 +4,7 @@
     <string name="sweden">Sweden</string>
     <string name="flag_image_content_description">A country\'s flag.</string>
     <string name="no_results">No results :(</string>
+    <string name="title_official_name">Official name:</string>
+    <string name="title_capital">Capital:</string>
+    <string name="title_population">Population:</string>
 </resources>
