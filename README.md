@@ -4,5 +4,5 @@ An Android application that allows a user to select a country and see some infor
 
 The app makes use of REST Countries API: https://restcountries.com/#rest-countries
 
-![image](https://github.com/user-attachments/assets/a9aa31b3-0902-42dd-b694-ad28e5b372c5)
-![image](https://github.com/user-attachments/assets/39355d8a-ca6b-4628-9c6c-c160818dac4d)
+<img src="https://github.com/user-attachments/assets/ac25b66a-cf82-43c8-8c96-0f65af2f759a" width="500">
+<img src="https://github.com/user-attachments/assets/cb0853b5-b060-4818-9d7a-930ee7674428" width="500">
