@@ -2,7 +2,8 @@ package com.markoved.countries.ui
 
 import com.markoved.countries.domain.GetAllCountriesUseCase
 import com.markoved.countries.domain.SearchCountriesByNameUseCase
-import com.markoved.countries.domain.entity.Country
+import com.markoved.countries.mockdata.getAllCountriesMockData
+import com.markoved.countries.mockdata.searchCountriesMockData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -63,34 +64,6 @@ class CountriesViewModelTest {
         assertEquals(
             CountriesUIState.Ready(searchCountriesMockData, searchText),
             viewModel.uiState.value
-        )
-    }
-
-    companion object {
-        private val getAllCountriesMockData = listOf(
-            Country(
-                commonName = "France",
-                officialName = "French Republic",
-                flagUrl = "",
-                population = 67391582,
-                capitals = listOf("Paris")
-            ),
-            Country(
-                commonName = "Germany",
-                officialName = "Federal Republic of Germany",
-                flagUrl = "",
-                population = 83240525,
-                capitals = listOf("Berlin")
-            )
-        )
-        private val searchCountriesMockData = listOf(
-            Country(
-                commonName = "Germany",
-                officialName = "Federal Republic of Germany",
-                flagUrl = "",
-                population = 83240525,
-                capitals = listOf("Berlin")
-            )
         )
     }
 }

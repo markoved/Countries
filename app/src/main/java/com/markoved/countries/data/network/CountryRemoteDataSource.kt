@@ -17,8 +17,7 @@ class CountryRemoteDataSource(
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {
-            // TODO: Handle IOException and HttpException separately
-            Log.w(TAG, "Error fetching countries", e)
+            Log.e(TAG, "Error fetching countries", e)
             emptyList()
         }
     }
@@ -29,8 +28,7 @@ class CountryRemoteDataSource(
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {
-            // TODO: Handle IOException and HttpException separately
-            Log.w(TAG, "Error fetching countries", e)
+            Log.e(TAG, "Error fetching countries", e)
             emptyList()
         }
     }
