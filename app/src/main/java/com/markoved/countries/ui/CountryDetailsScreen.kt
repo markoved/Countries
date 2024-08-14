@@ -25,7 +25,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.markoved.countries.ui.viewmodel.CountryListViewModel
 import com.markoved.countries.R
 import com.markoved.countries.domain.entity.Country
 import org.koin.androidx.compose.koinViewModel
@@ -36,10 +35,12 @@ fun CountryDetailsScreen(
     windowSize: WindowSizeClass,
     countryName: String?,
     modifier: Modifier = Modifier,
-    viewModel: CountryListViewModel = koinViewModel()
+    viewModel: CountriesViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val country = uiState.countries.find { it.commonName == countryName } ?: return
+    val country = (uiState as? CountriesUIState.Ready)?.countries?.find {
+        it.commonName == countryName
+    } ?: return
 
     when (windowSize.widthSizeClass) {
         WindowWidthSizeClass.Compact -> {

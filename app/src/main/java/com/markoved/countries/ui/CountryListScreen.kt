@@ -27,7 +27,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.markoved.countries.ui.viewmodel.CountryListViewModel
 import com.markoved.countries.R
 import com.markoved.countries.domain.entity.Country
 import com.markoved.countries.ui.theme.CountriesTheme
@@ -37,22 +36,38 @@ import org.koin.androidx.compose.koinViewModel
 fun CountryListScreen(
     onCountryItemClick: (String) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: CountryListViewModel = koinViewModel()
+    viewModel: CountriesViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    if (uiState is CountriesUIState.Loading) {
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Text(
+                text = stringResource(R.string.loading),
+                color = MaterialTheme.colorScheme.primary,
+                style = MaterialTheme.typography.titleLarge,
+            )
+        }
+        return
+    }
+
+    val readyState = uiState as CountriesUIState.Ready
 
     Column(
         modifier = modifier.padding(horizontal = 8.dp)
     ) {
         Spacer(Modifier.height(16.dp))
         SearchBar(
-            uiState.searchText,
+            readyState.searchText,
             { viewModel.onSearchTextChanged(it) },
             Modifier.padding(horizontal = 16.dp)
         )
         Spacer(Modifier.height(16.dp))
         CountryList(
-            data = uiState.countries,
+            data = readyState.countries,
             onItemClick = onCountryItemClick
         )
         Spacer(Modifier.height(16.dp))

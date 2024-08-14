@@ -1,8 +1,7 @@
-package com.markoved.countries.ui.viewmodel
+package com.markoved.countries.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.markoved.countries.domain.entity.Country
 import com.markoved.countries.domain.GetAllCountriesUseCase
 import com.markoved.countries.domain.SearchCountriesByNameUseCase
 import kotlinx.coroutines.Job
@@ -13,50 +12,40 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-data class CountryListUIState(
-    val countries: List<Country>,
-    val searchText: String
-)
-
-class CountryListViewModel(
+class CountriesViewModel(
     private val getAllCountriesUseCase: GetAllCountriesUseCase,
     private val searchCountriesByNameUseCase: SearchCountriesByNameUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(
-        CountryListUIState(
-            countries = emptyList(),
-            searchText = ""
-        )
-    )
-    val uiState: StateFlow<CountryListUIState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow<CountriesUIState>(CountriesUIState.Loading)
+    val uiState: StateFlow<CountriesUIState> = _uiState.asStateFlow()
 
     private var searchJob: Job? = null
 
     init {
         viewModelScope.launch {
-            _uiState.update {
-                it.copy(
-                    countries = getAllCountriesUseCase()
-                )
-            }
+            val allCountries = getAllCountriesUseCase()
+            _uiState.value = CountriesUIState.Ready(
+                countries = allCountries,
+                searchText = ""
+            )
         }
     }
 
     fun onSearchTextChanged(text: String) {
         _uiState.update {
-            it.copy(
+            (it as? CountriesUIState.Ready)?.copy(
                 searchText = text
-            )
+            ) ?: CountriesUIState.Loading
         }
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
             delay(SEARCH_DEBOUNCE)
             val result = searchCountriesByNameUseCase(text)
             _uiState.update {
-                it.copy(
+                (it as? CountriesUIState.Ready)?.copy(
                     countries = result
-                )
+                ) ?: CountriesUIState.Loading
             }
         }
     }
